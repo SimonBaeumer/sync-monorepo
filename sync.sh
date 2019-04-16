@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
+# Usage: ./sync.sh master git@github.com:SimonBaeumer
+# Create subtree splits from current branch and sync it with other repositories
 
-REMOTE="git@github.com:SimonBaeumer"
+
+REMOTE=${2:-"git@github.com:SimonBaeumer"}
 BRANCH=${1:-"master"}
 echo "Syncing branch ${BRANCH}"
 
