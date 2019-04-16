@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 REMOTE="git@github.com:SimonBaeumer"
-BRANCH="master"
+BRANCH=${1:-"master"}
+echo "Syncing branch ${BRANCH}"
 
 git diff-index --quiet HEAD --
 if [[ $? != 0 ]]; then
