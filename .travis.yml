@@ -17,7 +17,3 @@ jobs:
     - name: test
       stage: test
       script: commander test
-
-    - name: sync
-      stage: sync
-      script: ./sync.sh $(git rev-parse --abbrev-ref HEAD) git@github.com:SimonBaeumer repos/

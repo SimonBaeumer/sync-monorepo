@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 # Usage: ./sync.sh master git@github.com:SimonBaeumer
 # Create subtree splits from current branch and sync it with other repositories
 
