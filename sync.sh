@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REMOTE="git@github.com:SimonBaeumer/"
+REMOTE="git@github.com:SimonBaeumer"
 BRANCH="master"
 
 for i in $(ls repos/); do
