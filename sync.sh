@@ -9,18 +9,19 @@ if [[ $? != 0 ]]; then
     exit 1
 fi
 
-for i in $(ls repos/); do
-    SHA1=$(splitsh-lite --prefix=repos/repo01)
+for project in $(ls repos/); do
+    echo "Syncing ${project}"
+    SHA1=$(splitsh-lite --prefix=repos/"${project}")
 
     git checkout "${SHA1}"
-    git checkout -b "${i}"
+    git checkout -b "${project}"
 
-    git remote add "${i}" "${REMOTE}"/"${i}"
-    git push "${i}" "${i}":"${BRANCH}" --tags
+    git remote add "${project}" "${REMOTE}"/"${project}"
+    git push "${project}" "${project}":"${BRANCH}" --tags
 
     git checkout "${BRANCH}"
-    git branch -D "${i}"
-    git remote rm "${i}"
+    git branch -D "${project}"
+    git remote rm "${project}"
 done
 
 
