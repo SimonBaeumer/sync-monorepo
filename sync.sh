@@ -3,6 +3,12 @@
 REMOTE="git@github.com:SimonBaeumer"
 BRANCH="master"
 
+git diff-index --quiet HEAD --
+if [[ $? != 0 ]]; then
+    echo "Need a clean HEAD to sync branches."
+    exit 1
+fi
+
 for i in $(ls repos/); do
     SHA1=$(splitsh-lite --prefix=repos/repo01)
 
