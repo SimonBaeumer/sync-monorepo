@@ -26,7 +26,5 @@ before_script:
 
 sync repos:
   stage: sync
-  tags:
-    - docker
   script:
     - ./sync.sh master $SYNC_REMOTE $PATH
