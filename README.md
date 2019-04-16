@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/SimonBaeumer/sync-monorepo.svg?branch=master)](https://travis-ci.org/SimonBaeumer/sync-monorepo)
+
 # Syncing monorepo into subtree repositories
 
 Sync a monolithic repository into multiple standalone subtree repositories.
