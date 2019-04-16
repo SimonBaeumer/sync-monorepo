@@ -1,0 +1,29 @@
+stages:
+  - sync
+
+image: ubuntu:18.04
+
+variables:
+  SYNC_REMOTE: $SYNC_REMOTE
+  PATH: repos/
+
+before_script:
+  # install splitsh-lite
+  - curl -Lo splitsh.tar.gz https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz
+  - tar -xf splitsh.tar.gz
+  - chmod +x splitsh-lite
+  - mv splitsh-lite /bin
+  # install git
+  - apt-get update
+  - apt-get install -y git
+
+  # add ssh private key to docker image
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+
+sync repos:
+  stage: sync
+  script:
+    - ./sync.sh master $SYNC_REMOTE $PATH
