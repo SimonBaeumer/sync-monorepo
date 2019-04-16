@@ -13,6 +13,7 @@ before_script:
   - tar -xf splitsh.tar.gz
   - chmod +x splitsh-lite
   - mv splitsh-lite /bin
+
   # install git
   - apt-get update
   - apt-get install -y git
