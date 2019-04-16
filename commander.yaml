@@ -1,0 +1,10 @@
+tests:
+  it should fail without remote:
+    command: ./sync.sh master
+    exit-code: 1
+    stdout: Missing remote to sync to...
+
+  it should fail without path:
+    command: ./sync.sh master git@github.com:SimonBaeumer
+    exit-code: 1
+    stdout: Missing path to projects...

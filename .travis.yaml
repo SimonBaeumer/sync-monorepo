@@ -1,0 +1,23 @@
+stages:
+  - test
+  - sync
+
+dist: bionic
+
+before_install:
+  - curl -L https://github.com/SimonBaeumer/commander/releases/download/v0.3.0/commander-linux-amd64 -o ~/bin/commander
+  - chmod +x ~/bin/commander
+  - curl -L https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz -o lite.tar.gz
+  - tar -xf lite.tar.gz
+  - chmod +x splitsh-lite
+  - mv splitsh-lite ~/bin/splitsh-lite
+
+jobs:
+  include:
+    - name: test
+      stage: test
+      script: commander test
+
+    - name: sync
+      stage: sync
+      script: ./sync.sh $(git rev-parse --abbrev-ref HEAD) git@github.com:SimonBaeumer repos/

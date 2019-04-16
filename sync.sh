@@ -3,19 +3,34 @@
 # Create subtree splits from current branch and sync it with other repositories
 
 
-REMOTE=${2:-"git@github.com:SimonBaeumer"}
 BRANCH=${1:-"master"}
+REMOTE=${2:-""}
+PROJECTS_PATH=${3:-""}
 echo "Syncing branch ${BRANCH}"
 
+# Check if is given
+if [[ -z "${REMOTE}" ]]; then
+    echo "Missing remote to sync to..."
+    exit 1
+fi
+
+# Check if path to synced projects exists
+if [[ -z "${PROJECTS_PATH}" ]]; then
+    echo "Missing path to projects..."
+    exit 1
+fi
+
+# Check if HEAD is clean
 git diff-index --quiet HEAD --
 if [[ $? != 0 ]]; then
     echo "Need a clean HEAD to sync branches."
     exit 1
 fi
 
-for project in $(ls repos/); do
+echo "Scanning ${PROJECTS_PATH}"
+for project in $(ls "${PROJECTS_PATH}"); do
     echo "Syncing ${project}"
-    SHA1=$(splitsh-lite --prefix=repos/"${project}")
+    SHA1=$(splitsh-lite --prefix=/"${project}")
 
     git checkout "${SHA1}"
     git checkout -b "${project}"
@@ -27,5 +42,3 @@ for project in $(ls repos/); do
     git branch -D "${project}"
     git remote rm "${project}"
 done
-
-
