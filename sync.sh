@@ -9,6 +9,8 @@ REMOTE=${2:-""}
 PROJECTS_PATH=${3:-""}
 echo "Syncing branch ${BRANCH}"
 
+git show-ref --verify "refs/heads/${BRANCH}"
+
 # Check if is given
 if [[ -z "${REMOTE}" ]]; then
     echo "Missing remote to sync to..."
