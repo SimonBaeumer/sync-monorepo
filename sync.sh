@@ -32,8 +32,8 @@ fi
 
 echo "Scanning ${PROJECTS_PATH}"
 for project in $(ls "${PROJECTS_PATH}"); do
-    echo "Syncing ${project}"
-    SHA1=$(splitsh-lite --prefix=/"${project}")
+    echo "Syncing ${PROJECTS_PATH}/${project}"
+    SHA1=$(splitsh-lite --prefix=${PROJECTS_PATH}/"${project}")
 
     git checkout "${SHA1}"
     git checkout -b "${project}"
