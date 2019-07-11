@@ -32,10 +32,12 @@ if [[ "${EXIT_CODE}" != "0" ]]; then
 fi
 
 # Delete tag if it already exists
-git tag -l | grep "${TAG}" &>/dev/null
-if [ 0 -eq "$?" ] ; then
-    echo "Temporary delete tag of mono-repo"
-    git tag -d "${TAG}"
+if [[ "${TAG}" != "" ]]; then
+    git tag -l | grep "${TAG}" &>/dev/null
+    if [ 0 -eq "$?" ] ; then
+        echo "Temporary delete tag of mono-repo"
+        git tag -d "${TAG}"
+    fi
 fi
 
 echo "Scanning ${PROJECTS_PATH}"
