@@ -33,7 +33,7 @@ fi
 
 # Delete tag if it already exists
 git tag -l | grep "${TAG}" &>/dev/null
-if [ 1 -eq "$?" ] ; then
+if [ 0 -eq "$?" ] ; then
     echo "Temporary delete tag of mono-repo"
     git tag -d "${TAG}"
 fi
