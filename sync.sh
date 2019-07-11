@@ -7,6 +7,7 @@ set -euo pipefail
 BRANCH=${1:-"master"}
 REMOTE=${2:-""}
 PROJECTS_PATH=${3:-""}
+TAG=${4:-""}
 echo "Syncing branch ${BRANCH}"
 
 git show-ref --verify "refs/heads/${BRANCH}"
@@ -28,6 +29,13 @@ EXIT_CODE=$(git diff-index --quiet HEAD -- && echo $?)
 if [[ "${EXIT_CODE}" != "0" ]]; then
     echo "Need a clean HEAD to sync branches."
     exit 1
+fi
+
+# Delete tag if it already exists
+git tag -l | grep "${TAG}" &>/dev/null
+if [ 1 -eq "$?" ] ; then
+    echo "Temporary delete tag of mono-repo"
+    git tag -d "${TAG}"
 fi
 
 echo "Scanning ${PROJECTS_PATH}"
@@ -52,6 +60,10 @@ for project in $(ls "${PROJECTS_PATH}"); do
     git remote add "${project}" "${REMOTE}/${project}"
 
     ls -la
+
+    if [[ "${TAG}" != "" ]]; then
+        git tag -a "${TAG}" -m "${TAG}"
+    fi
 
     echo "Push to ${project}:${BRANCH}"
     git push -f "${project}" "${project}:${BRANCH}" --follow-tags
