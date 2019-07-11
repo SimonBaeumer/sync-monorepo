@@ -18,6 +18,8 @@ Sync a monolithic repository into multiple standalone subtree repositories.
 
 ## Example
 
+`$ ./sync.sh master git@github.com:SimonBaeumer/sync-monorepo.git repos`
+
 ### Terminal
 
 ```bash
