@@ -54,7 +54,7 @@ for project in $(ls "${PROJECTS_PATH}"); do
     ls -la
 
     echo "Push to ${project}:${BRANCH}"
-    git push -f "${project}" "${project}:${BRANCH}" --tags
+    git push -f "${project}" "${project}:${BRANCH}" --follow-tags
 
 	echo "Reset git..."
     git checkout "${BRANCH}"
