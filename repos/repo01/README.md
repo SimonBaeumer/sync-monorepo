@@ -9,3 +9,5 @@ another tag
 --follow-tags test
 
 tags
+
+eyho
