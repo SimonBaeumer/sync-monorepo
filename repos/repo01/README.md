@@ -7,3 +7,5 @@ Moaaa commits
 another tag
 
 --follow-tags test
+
+tags
