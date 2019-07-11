@@ -69,6 +69,11 @@ for project in $(ls "${PROJECTS_PATH}"); do
     git push -f "${project}" "${project}:${BRANCH}" --follow-tags
 
 	echo "Reset git..."
+	if [[ "${TAG}" != "" ]]; then
+	    echo "Removing created tag"
+        git tag -d "${TAG}"
+    fi
+
     git checkout "${BRANCH}"
     git branch -D "${project}"
     git remote rm "${project}"
