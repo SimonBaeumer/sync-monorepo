@@ -24,23 +24,39 @@ if [[ -z "${PROJECTS_PATH}" ]]; then
 fi
 
 # Check if HEAD is clean
-git diff-index --quiet HEAD --
-if [[ $? != 0 ]]; then
+EXIT_CODE=$(git diff-index --quiet HEAD -- && echo $?)
+if [[ "${EXIT_CODE}" != "0" ]]; then
     echo "Need a clean HEAD to sync branches."
     exit 1
 fi
 
 echo "Scanning ${PROJECTS_PATH}"
 for project in $(ls "${PROJECTS_PATH}"); do
-    echo "Syncing ${PROJECTS_PATH}/${project}"
-    SHA1=$(splitsh-lite --prefix=${PROJECTS_PATH}/"${project}")
+	echo "##########################################"
+	echo "#### Sync ${PROJECTS_PATH}/${project} ####"
+	echo "##########################################"
 
-    git checkout "${SHA1}"
-    git checkout -b "${project}"
+	git remote rm "${project}" > /dev/null || true
+	git branch -D "${project}" > /dev/null || true
 
-    git remote add "${project}" "${REMOTE}"/"${project}"
-    git push "${project}" "${project}":"${BRANCH}" --tags
+    echo "Splitting ${PROJECTS_PATH}/${project}"
+    SHA1=$(splitsh-lite --prefix="${PROJECTS_PATH}/${project}")
 
+	echo "Check out ${SHA1}"
+    git checkout "${SHA1}" > /dev/null
+
+    echo "Creating branch ${project}"
+    git checkout -b "${project}" > /dev/null
+
+	echo "Add remote ${REMOTE}/${project}"
+    git remote add "${project}" "${REMOTE}/${project}"
+
+    ls -la
+
+    echo "Push to ${project}:${BRANCH}"
+    git push -f "${project}" "${project}:${BRANCH}" --tags
+
+	echo "Reset git..."
     git checkout "${BRANCH}"
     git branch -D "${project}"
     git remote rm "${project}"
