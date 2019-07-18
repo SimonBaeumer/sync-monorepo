@@ -12,12 +12,14 @@ echo "Syncing ref ${REF_NAME}"
 function detect_ref_type {
     git show-ref --verify --quiet "refs/heads/${REF_NAME}"
     if [[ $? == 0 ]]; then
-        return "branch"
+        echo "branch"
+        return 0
     fi
 
     git show-ref --verify --quiet "refs/tags/${REF_NAME}"
     if [[ $? == 0 ]]; then
-        return "tag"
+        echo "tag"
+        return 0
     fi
 
     echo "No valid ref given"
@@ -59,7 +61,8 @@ function create_split {
     git checkout -b "${project}" > /dev/null
 }
 
-REF_TYPE=detect_ref_type
+REF_TYPE=$(detect_ref_type)
+echo "REF-TYPE is ${REF_TYPE}"
 
 # Check if is given
 if [[ -z "${REMOTE}" ]]; then
@@ -75,7 +78,6 @@ fi
 
 # Check if HEAD is clean
 git diff-index --quiet HEAD --
-echo $?
 if [[ $? != "0" ]]; then
     echo "Need a clean HEAD to sync branches."
     exit 1
