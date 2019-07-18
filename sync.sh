@@ -10,7 +10,7 @@ PROJECTS_PATH=${3:-""}
 echo "Syncing ref ${REF_NAME}"
 
 function detect_ref_type {
-    git show-ref --verify --quiet "refs/branch/${REF_NAME}"
+    git show-ref --verify --quiet "refs/heads/${REF_NAME}"
     if [[ $? == 0 ]]; then
         return "branch"
     fi
