@@ -10,20 +10,15 @@ PROJECTS_PATH=${3:-""}
 echo "Syncing ref ${REF_NAME}"
 
 function detect_ref_type {
-    git show-ref --verify --quiet "refs/heads/${REF_NAME}"
-    if [[ $? == 0 ]]; then
-        echo "branch"
-        return 0
-    fi
-
     git show-ref --verify --quiet "refs/tags/${REF_NAME}"
     if [[ $? == 0 ]]; then
         echo "tag"
         return 0
     fi
 
-    echo "No valid ref given"
-    exit 1
+    git checkout -B "${REF_NAME}"
+    echo "branch"
+    return 0
 }
 
 function sync_tag {
@@ -35,10 +30,10 @@ function sync_tag {
         git tag -d "${TAG}"
     fi
 
-    git tag "${TAG}"
+    git tag -a "${TAG}" -m "${TAG}"
 
     echo "Push tags"
-    git push "${project}" --tags
+    git push -f "${project}" "${TAG}"
 
     echo "Removing created tag"
     git tag -d "${TAG}"
@@ -83,8 +78,6 @@ if [[ $? != "0" ]]; then
     exit 1
 fi
 
-
-echo "Scanning ${PROJECTS_PATH}"
 for project in $(ls "${PROJECTS_PATH}"); do
 	echo "##########################################"
 	echo "#### Sync ${PROJECTS_PATH}/${project} ####"
@@ -105,10 +98,10 @@ for project in $(ls "${PROJECTS_PATH}"); do
     if [[ "${REF_TYPE}" == "branch" ]]; then
         echo "Push to ${project}:${REF_NAME}"
         git push -f "${project}" "${project}:${REF_NAME}"
+        git checkout "${REF_NAME}"
     fi
 
 	echo "Reset git..."
-    git checkout "${REF_NAME}"
     git branch -D "${project}"
     git remote rm "${project}"
 done
