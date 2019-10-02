@@ -1,0 +1,9 @@
+projects:
+- name: repo01
+  path: repos/repo01
+  git-url: git@github.com:SimonBaeumer/repo01
+- name: repo02
+  path: repos/repo02
+  git-url: git@github.com:SimonBaeumer/repo02
+operating-directory: .git/.subtree-repos
+configfile: .monorepo-operator.yml
