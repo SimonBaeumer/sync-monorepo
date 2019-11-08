@@ -32,7 +32,7 @@ Sync a monolithic repository into multiple standalone subtree repositories.
 
 ### Create ssh-keys
 
-1. `ssh-keygen -t rsa -b 4096 -C "<your_email>" -f github_deploy_key -N ''`
+1. `ssh-keygen -td rsa -b 4096 -C "<your_email>" -f github_deploy_key -N ''`
 2. Add the `github_deploy_key.pub` with `write_access` as a deploy key to your synced repo
 3. Add the `github_deploy_key` as an encrypted environment variable to your monorepo ([tutorial](https://github.com/alrra/travis-scripts/blob/master/docs/github-deploy-keys.md))
 
